@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "mkdir -p public/gifs && cp -r build-gifs/. public/gifs/ && python3 scripts/generate_manifest.py && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "eslint"
   },
