@@ -1,0 +1,15 @@
+# Dependencies
+/node_modules
+/.pnp
+.pnp.*
+
+# Next.js build outputs
+/.next/
+/out/
+
+# Other
+.DS_Store
+*.pem
+.env*
+.vercel
+*.tsbuildinfo
