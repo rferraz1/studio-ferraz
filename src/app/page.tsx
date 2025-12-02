@@ -175,8 +175,7 @@ const buildHtml = (items: WorkoutExercise[], studentName: string) => {
 };
 
 export default function Home() {
-  const CLOUDFLARE_BASE_URL =
-    "https://961b6ef83806bc3c0cde2b72250b0a8f.r2.cloudflarestorage.com/treino-gifs";
+  const CLOUDFLARE_BASE_URL = "/treino-gifs";
   const [library, setLibrary] = useState<LibraryExercise[]>(fallbackExercises);
   const [searchTerm, setSearchTerm] = useState("");
   const [studentName, setStudentName] = useState("");
