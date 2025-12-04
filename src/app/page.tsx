@@ -52,6 +52,17 @@ const arrayBufferToBase64 = (buffer: ArrayBuffer) => {
   return btoa(binary);
 };
 
+const normalizeBaseUrl = (url: string | undefined) => {
+  if (!url) return "";
+  return url.endsWith("/") ? url.slice(0, -1) : url;
+};
+
+const baseUrl =
+  normalizeBaseUrl(process.env.NEXT_PUBLIC_GIFS_BASE_URL) || "/gifs";
+const manifestUrl =
+  normalizeBaseUrl(process.env.NEXT_PUBLIC_GIFS_MANIFEST_URL) ||
+  `${baseUrl}/manifest.json`;
+
 const buildHtml = (items: WorkoutExercise[], studentName: string) => {
   const title = studentName
     ? `Treino - ${studentName} | Studio Ferraz`
@@ -175,7 +186,6 @@ const buildHtml = (items: WorkoutExercise[], studentName: string) => {
 };
 
 export default function Home() {
-  const CLOUDFLARE_BASE_URL = "/treino-gifs";
   const [library, setLibrary] = useState<LibraryExercise[]>(fallbackExercises);
   const [searchTerm, setSearchTerm] = useState("");
   const [studentName, setStudentName] = useState("");
@@ -189,13 +199,13 @@ export default function Home() {
     if (file.startsWith("http://") || file.startsWith("https://")) {
       return file;
     }
-    return `${CLOUDFLARE_BASE_URL}/${file}`;
+    return `${baseUrl}/${file}`;
   };
 
   useEffect(() => {
     const loadLibrary = async () => {
       try {
-        const res = await fetch(`${CLOUDFLARE_BASE_URL}/manifest.json`);
+        const res = await fetch(manifestUrl);
         if (!res.ok) throw new Error("manifest not found");
         const data = await res.json();
         if (Array.isArray(data)) {
@@ -222,7 +232,7 @@ export default function Home() {
     };
 
     loadLibrary();
-  }, [CLOUDFLARE_BASE_URL]);
+  }, [manifestUrl]);
 
   const filteredLibrary = useMemo(() => {
     if (!hasQuery) return [];
